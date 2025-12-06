@@ -25,7 +25,7 @@ def load_customer_data(n_customers: int = 1000) -> pl.DataFrame:
             "name": [f"Customer_{i}" for i in range(n_customers)],
             "age": [20 + (i % 60) for i in range(n_customers)],
             "spend": [100 + (i * 10) % 1000 for i in range(n_customers)],
-        }
+        },
     )
 
 
@@ -46,7 +46,7 @@ def process_sales_data(multiplier: float = 1.5) -> pl.LazyFrame:
                 "product": ["A", "B", "C", "D"],
                 "sales": [100, 200, 150, 300],
                 "profit": [20, 40, 30, 60],
-            }
+            },
         )
         .lazy()
         .with_columns(
@@ -59,7 +59,9 @@ def process_sales_data(multiplier: float = 1.5) -> pl.LazyFrame:
 # Example 3: Function with multiple arguments
 @cache(cache_dir="./demo_cache", symlink_name="filtered_data.parquet")
 def filter_data(
-    min_age: int, max_spend: int, category: str = "premium"
+    min_age: int,
+    max_spend: int,
+    category: str = "premium",
 ) -> pl.DataFrame:
     """Filter customer data based on criteria."""
     print(f"🔍 Filtering data: age>={min_age}, spend<={max_spend}, category={category}")
@@ -71,13 +73,13 @@ def filter_data(
             "age": [20 + (i % 60) for i in range(100)],
             "spend": [50 + (i * 15) % 500 for i in range(100)],
             "category": ["premium" if i % 3 == 0 else "standard" for i in range(100)],
-        }
+        },
     )
 
     return data.filter(
         (pl.col("age") >= min_age)
         & (pl.col("spend") <= max_spend)
-        & (pl.col("category") == category)
+        & (pl.col("category") == category),
     )
 
 

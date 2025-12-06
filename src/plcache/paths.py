@@ -12,7 +12,9 @@ if TYPE_CHECKING:
 
 
 def create_entry_dir_name(
-    func: DecoratedFn, bound_args: dict[str, Any], trim_arg: int = 50
+    func: DecoratedFn,
+    bound_args: dict[str, Any],
+    trim_arg: int = 50,
 ) -> str:
     """Create directory name for function arguments."""
     args_parts = []
@@ -29,7 +31,9 @@ def get_parquet_path(config: PathConfig, cache_key: str) -> Path:
 
 
 def get_readable_path(
-    config: PathConfig, func: DecoratedFn, bound_args: dict[str, Any]
+    config: PathConfig,
+    func: DecoratedFn,
+    bound_args: dict[str, Any],
 ) -> Path:
     """Generate the readable directory path for a function call."""
     readable_dir = config.cache_dir / config.symlinks_dir_name

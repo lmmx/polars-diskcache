@@ -40,7 +40,9 @@ def test_machine_learning_pipeline_cache_strategy(tmp_path):
 
     @pc.cache_polars()
     def train_model(
-        data: pl.DataFrame, model_type: str = "linear", random_seed: int = 42
+        data: pl.DataFrame,
+        model_type: str = "linear",
+        random_seed: int = 42,
     ) -> pl.DataFrame:
         """Simulate expensive model training."""
         # Simulate some computation that should be cached
@@ -52,7 +54,7 @@ def test_machine_learning_pipeline_cache_strategy(tmp_path):
 
     # Create test data
     train_data = pl.DataFrame(
-        {"feature1": [1, 2, 3, 4, 5], "feature2": [10, 20, 30, 40, 50]}
+        {"feature1": [1, 2, 3, 4, 5], "feature2": [10, 20, 30, 40, 50]},
     )
 
     # First training run
@@ -126,10 +128,16 @@ def test_data_processing_versioning_strategy(tmp_path):
 
     # Process with v1.0
     result_v1_1 = process_data(
-        raw_data, process_type="advanced", version="v1.0", debug=True
+        raw_data,
+        process_type="advanced",
+        version="v1.0",
+        debug=True,
     )
     result_v1_2 = process_data(
-        raw_data, process_type="advanced", version="v1.0", debug=False
+        raw_data,
+        process_type="advanced",
+        version="v1.0",
+        debug=False,
     )
 
     # Should be identical (debug flag ignored in cache key)
@@ -137,7 +145,10 @@ def test_data_processing_versioning_strategy(tmp_path):
 
     # Process with v2.0
     result_v2 = process_data(
-        raw_data, process_type="advanced", version="v2.0", debug=True
+        raw_data,
+        process_type="advanced",
+        version="v2.0",
+        debug=True,
     )
 
     # Should be different (different version)
@@ -190,7 +201,7 @@ def test_callback_error_handling_in_real_workflow(tmp_path):
     @pc.cache_polars()
     def robust_function(input_value: str) -> pl.DataFrame:
         return pl.DataFrame(
-            {"input": [input_value], "processed": [input_value.upper()]}
+            {"input": [input_value], "processed": [input_value.upper()]},
         )
 
     # This should work fine

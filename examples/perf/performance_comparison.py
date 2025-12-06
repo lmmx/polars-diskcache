@@ -32,7 +32,7 @@ def expensive_data_operation(n_rows: int, delay: float = 0.1) -> pl.DataFrame:
             "value": [i * 2 for i in range(n_rows)],
             "squared": [i**2 for i in range(n_rows)],
             "category": [f"cat_{i % 5}" for i in range(n_rows)],
-        }
+        },
     )
 
 
@@ -48,7 +48,7 @@ def cached_data_operation(n_rows: int, delay: float = 0.1) -> pl.DataFrame:
             "value": [i * 2 for i in range(n_rows)],
             "squared": [i**2 for i in range(n_rows)],
             "category": [f"cat_{i % 5}" for i in range(n_rows)],
-        }
+        },
     )
 
 
@@ -67,7 +67,7 @@ def expensive_aggregation(data_size: int, group_operations: int = 3) -> pl.LazyF
             "value1": [i * 1.5 for i in range(data_size)],
             "value2": [i**1.2 for i in range(data_size)],
             "timestamp": [f"2024-01-{(i % 30) + 1:02d}" for i in range(data_size)],
-        }
+        },
     )
 
     # Build complex aggregation with deterministic ordering
@@ -79,14 +79,14 @@ def expensive_aggregation(data_size: int, group_operations: int = 3) -> pl.LazyF
                 pl.col("value1").mean().alias("avg_value1"),
                 pl.col("value2").sum().alias("sum_value2"),
                 pl.col("value1").max().alias("max_value1"),
-            ]
+            ],
         )
     )
 
     # Add more operations based on group_operations parameter
     for i in range(group_operations - 1):
         result = result.with_columns(
-            (pl.col("avg_value1") * (i + 2)).alias(f"derived_{i}")
+            (pl.col("avg_value1") * (i + 2)).alias(f"derived_{i}"),
         )
 
     return result
@@ -196,7 +196,7 @@ def memory_usage_demo():
                 "data1": [f"value_{i}" for i in range(n_rows)],
                 "data2": [i * 1.5 for i in range(n_rows)],
                 "data3": [i**0.5 for i in range(n_rows)],
-            }
+            },
         )
 
     large_size = 10000
@@ -239,7 +239,7 @@ def main():
     print("   • Cache stores results on disk, saving memory")
     print("   • Cache maintains data integrity across calls")
     print(
-        "\n💡 Best used for: expensive computations, large datasets, repeated analysis"
+        "\n💡 Best used for: expensive computations, large datasets, repeated analysis",
     )
 
 

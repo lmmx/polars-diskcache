@@ -91,7 +91,9 @@ def test_cache_key_vs_entry_dir_independence(tmp_path):
         return f"call_{int(time.time() * 1000000)}"
 
     pc = PolarsCache(
-        cache_dir=tmp_path, cache_key=same_cache_key, entry_dir=unique_entry_dir
+        cache_dir=tmp_path,
+        cache_key=same_cache_key,
+        entry_dir=unique_entry_dir,
     )
 
     @pc.cache_polars()
@@ -317,7 +319,9 @@ def test_normalise_args_function():
     # Test with all args provided - should be same whether called positionally or by name
     result1 = normalise_args(example_func, (20, "custom"), {"z": "end", "c": "start"})
     result2 = normalise_args(
-        example_func, (), {"a": 20, "b": "custom", "z": "end", "c": "start"}
+        example_func,
+        (),
+        {"a": 20, "b": "custom", "z": "end", "c": "start"},
     )
     expected = {"a": 20, "b": "custom", "c": "start", "z": "end"}
     assert result1 == expected

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Configurable cache key callbacks**: Custom cache key generation via `cache_key` parameter
-- **Configurable directory naming**: Custom directory names via `entry_dir` parameter  
+- **Configurable directory naming**: Custom directory names via `entry_dir` parameter
 - **MIT License**: Added MIT license for the project
 - **Enhanced documentation**: Added detailed examples for custom cache keys and directory naming
 

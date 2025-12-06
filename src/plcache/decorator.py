@@ -69,7 +69,8 @@ class PolarsCache:
 
         # Use diskcache for metadata
         self.cache = diskcache.Cache(
-            str(self.cache_dir / "metadata"), size_limit=_parse_size(size_limit)
+            str(self.cache_dir / "metadata"),
+            size_limit=_parse_size(size_limit),
         )
 
     def _get_cache_key(self, func: DecoratedFn, bound_args: dict[str, Any]) -> str:
@@ -78,7 +79,9 @@ class PolarsCache:
         return xxhash.xxh64(ident.encode()).hexdigest()
 
     def _save_polars_result(
-        self, result: pl.DataFrame | pl.LazyFrame, cache_key: str
+        self,
+        result: pl.DataFrame | pl.LazyFrame,
+        cache_key: str,
     ) -> str:
         """Save a Polars DataFrame or LazyFrame to parquet and return the path."""
         parquet_path = get_parquet_path(self.path_config, cache_key)
@@ -94,16 +97,22 @@ class PolarsCache:
 
     @overload
     def _load_polars_result(
-        self, parquet_path: str, lazy: bool = True
+        self,
+        parquet_path: str,
+        lazy: bool = True,
     ) -> pl.LazyFrame: ...
 
     @overload
     def _load_polars_result(
-        self, parquet_path: str, lazy: bool = False
+        self,
+        parquet_path: str,
+        lazy: bool = False,
     ) -> pl.DataFrame: ...
 
     def _load_polars_result(
-        self, parquet_path: str, lazy: bool = False
+        self,
+        parquet_path: str,
+        lazy: bool = False,
     ) -> pl.DataFrame | pl.LazyFrame:
         """Load a Polars DataFrame or LazyFrame from parquet."""
         if lazy:
@@ -166,7 +175,8 @@ class PolarsCache:
                         from dataclasses import replace
 
                         symlink_config = replace(
-                            symlink_config, symlink_name=symlink_name
+                            symlink_config,
+                            symlink_name=symlink_name,
                         )
 
                     readable_dir = get_readable_path(path_config, func, bound_args)
@@ -196,7 +206,8 @@ class PolarsCache:
             import shutil
 
             shutil.rmtree(
-                self.cache_dir / self.path_config.symlinks_dir_name, ignore_errors=True
+                self.cache_dir / self.path_config.symlinks_dir_name,
+                ignore_errors=True,
             )
             (self.cache_dir / self.path_config.symlinks_dir_name).mkdir(exist_ok=True)
 
