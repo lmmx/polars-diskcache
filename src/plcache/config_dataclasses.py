@@ -27,7 +27,8 @@ class PathConfig:
         """Set up default callback if none provided."""
         if self.entry_dir_callback is None:
             self.entry_dir_callback = partial(
-                create_entry_dir_name, trim_arg=self.trim_arg
+                create_entry_dir_name,
+                trim_arg=self.trim_arg,
             )
 
         # Ensure required directories exist

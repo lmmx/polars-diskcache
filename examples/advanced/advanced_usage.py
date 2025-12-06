@@ -39,11 +39,11 @@ def demonstrate_split_vs_flat():
 
     print("✅ Split structure created at:")
     print(
-        "   ./example_cache_split/functions/[module]/split_example/arg0=42/result.parquet"
+        "   ./example_cache_split/functions/[module]/split_example/arg0=42/result.parquet",
     )
     print("✅ Flat structure created at:")
     print(
-        "   ./example_cache_flat/functions/[module.flat_example]/arg0=42/result.parquet"
+        "   ./example_cache_flat/functions/[module.flat_example]/arg0=42/result.parquet",
     )
 
     return split_result, flat_result
@@ -65,7 +65,8 @@ def demonstrate_class_usage():
 
     @my_cache.cache_polars()
     def analyze_with_long_params(
-        data_source: str, analysis_type: str = "comprehensive_statistical_analysis"
+        data_source: str,
+        analysis_type: str = "comprehensive_statistical_analysis",
     ) -> pl.DataFrame:
         """Function with potentially long parameter names."""
         print(f"🔬 Analyzing {data_source} with {analysis_type}")
@@ -75,7 +76,7 @@ def demonstrate_class_usage():
                 "source": [data_source],
                 "analysis": [analysis_type],
                 "result": [f"Analysis of {data_source}"],
-            }
+            },
         )
 
     # Test with long parameters
@@ -104,11 +105,13 @@ def demonstrate_custom_configurations():
         symlink_name="experiment_data.parquet",
     )
     def run_simulation(
-        particles: int, temperature: float, simulation_type: str = "molecular_dynamics"
+        particles: int,
+        temperature: float,
+        simulation_type: str = "molecular_dynamics",
     ) -> pl.DataFrame:
         """Simulate scientific experiment."""
         print(
-            f"🧪 Running {simulation_type} with {particles} particles at {temperature}K"
+            f"🧪 Running {simulation_type} with {particles} particles at {temperature}K",
         )
 
         return pl.DataFrame(
@@ -117,7 +120,7 @@ def demonstrate_custom_configurations():
                 "position": [i * 0.1 for i in range(particles)],
                 "velocity": [i * 0.05 for i in range(particles)],
                 "temperature": [temperature] * particles,
-            }
+            },
         )
 
     # Configuration 2: Business analytics cache
@@ -129,7 +132,9 @@ def demonstrate_custom_configurations():
         symlink_name="report.parquet",
     )
     def generate_report(
-        start_date: str, end_date: str, metrics: str = "revenue_and_growth"
+        start_date: str,
+        end_date: str,
+        metrics: str = "revenue_and_growth",
     ) -> pl.LazyFrame:
         """Generate business report."""
         print(f"📈 Generating {metrics} report from {start_date} to {end_date}")
@@ -139,7 +144,7 @@ def demonstrate_custom_configurations():
                 "date": [start_date, end_date],
                 "metric_type": [metrics, metrics],
                 "value": [1000, 1500],
-            }
+            },
         ).lazy()
 
     # Test the configurations
@@ -166,7 +171,7 @@ def demonstrate_argument_handling():
     ) -> pl.DataFrame:
         """Function with various argument types."""
         print(
-            f"🔧 Processing with numbers={numbers}, config={config}, flag={flag}, mode={mode}"
+            f"🔧 Processing with numbers={numbers}, config={config}, flag={flag}, mode={mode}",
         )
 
         return pl.DataFrame(
@@ -175,7 +180,7 @@ def demonstrate_argument_handling():
                 "config_keys": [len(config)],
                 "flag_value": [flag],
                 "mode": [mode],
-            }
+            },
         )
 
     # Test with various argument types

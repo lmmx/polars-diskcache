@@ -66,7 +66,7 @@ call_str = f"{func_name}({bound_args})"
 cache_key = hashlib.sha256(call_str.encode()).hexdigest()
 ```
 
-The Parquet file is saved to `{cache_dir}/blobs/{hash}.parquet` and the cache key plus file path are stored in a SQLite database at `{cache_dir}/metadata/`. 
+The Parquet file is saved to `{cache_dir}/blobs/{hash}.parquet` and the cache key plus file path are stored in a SQLite database at `{cache_dir}/metadata/`.
 
 Human-readable symlinks are created at `{cache_dir}/functions/module/function/args/` that point back to the blob files, so you can browse your cached results easily. If no args are passed, the directory is given the name `no_args/` rather than the empty string.
 
@@ -160,7 +160,7 @@ def function_with_long_args(very_long_argument_name: str): ...
 @cache(symlink_name="results.parquet")
 def custom_output(): ...
 
-@cache(symlink_name="processed_data.parquet")  
+@cache(symlink_name="processed_data.parquet")
 def data_processor(): ...
 ```
 
@@ -190,7 +190,7 @@ Control what gets cached together by customizing the cache key generation:
 def preprocessing_cache_key(func, bound_args):
     """Cache key that ignores debug flags but includes data params."""
     # Remove debug/logging flags from cache consideration
-    cache_params = {k: v for k, v in bound_args.items() 
+    cache_params = {k: v for k, v in bound_args.items()
                    if k not in ['debug', 'verbose', 'log_level']}
     return f"{func.__name__}({cache_params})"
 
@@ -244,7 +244,7 @@ All callbacks receive normalized arguments where positional and keyword argument
 ```python
 # These calls produce identical bound_args:
 func(10, name="test")           # bound_args = {'value': 10, 'name': 'test'}
-func(value=10, name="test")     # bound_args = {'value': 10, 'name': 'test'} 
+func(value=10, name="test")     # bound_args = {'value': 10, 'name': 'test'}
 func(name="test", value=10)     # bound_args = {'value': 10, 'name': 'test'} (sorted)
 ```
 
@@ -252,7 +252,7 @@ func(name="test", value=10)     # bound_args = {'value': 10, 'name': 'test'} (so
 - Controls which function calls share cache entries
 - Return same string to share cache, different strings for separate entries
 
-**Entry Directory Callback**: `(func, bound_args) -> str`  
+**Entry Directory Callback**: `(func, bound_args) -> str`
 - Controls symlink directory names for organization
 - Should return filesystem-safe directory names
 - Used for browsing, not for cache hits/misses
@@ -313,7 +313,7 @@ plcache automatically preserves the return type:
 def get_lazy_data(n: int) -> pl.LazyFrame:
     return pl.LazyFrame({"x": range(n)})
 
-@cache()  
+@cache()
 def get_eager_data(n: int) -> pl.DataFrame:
     return pl.DataFrame({"x": range(n)})
 
@@ -345,7 +345,7 @@ import polars as pl
 from plcache import cache
 
 @cache(
-    cache_dir="./data_cache", 
+    cache_dir="./data_cache",
     symlinks_dir="datasets",
     symlink_name="raw_data.parquet"
 )
@@ -358,13 +358,13 @@ def load_stock_data(symbol: str, start_date: str, end_date: str) -> pl.LazyFrame
 
 @cache(
     cache_dir="./analysis_cache",
-    symlinks_dir="technical_analysis", 
+    symlinks_dir="technical_analysis",
     symlink_name="indicators.parquet"
 )
 def technical_analysis(symbol: str, window: int = 20) -> pl.DataFrame:
     """Compute technical indicators - expensive computation."""
     stock_data = load_stock_data(symbol, "2024-01-01", "2024-12-31")
-    
+
     return (
         stock_data
         .with_columns([
@@ -387,13 +387,13 @@ aapl_analysis = technical_analysis("AAPL", window=20)
 See the `examples/` directory for comprehensive usage examples:
 
 - `examples/basic/` - Simple usage patterns and getting started
-- `examples/advanced/` - Configuration options and advanced features  
+- `examples/advanced/` - Configuration options and advanced features
 - `examples/perf/` - Performance comparisons and benchmarks
 
 ## Usage Tips
 
 1. **Use appropriate return types**: Return `LazyFrame` for large datasets you'll filter later
-2. **Cache at the right level**: Cache expensive I/O operations, not cheap transformations  
+2. **Cache at the right level**: Cache expensive I/O operations, not cheap transformations
 3. **Monitor cache size**: Set reasonable `size_limit` to avoid disk space issues
 4. **organise with `symlinks_dir`**: Use descriptive names like "experiments", "datasets", "analysis" for different cache types
 5. **Custom symlink names**: Use descriptive filenames like "raw_data.parquet", "results.parquet" to identify cache contents

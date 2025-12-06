@@ -27,11 +27,11 @@ def get_symlink_name(
         symlink_name = config.symlink_name(func, bound_args, result, cache_key)
         if not isinstance(symlink_name, str):
             raise TypeError(
-                f"symlink_name callback must return str, got {type(symlink_name).__name__}"
+                f"symlink_name callback must return str, got {type(symlink_name).__name__}",
             )
         if not symlink_name.strip():
             raise ValueError(
-                "symlink_name callback returned empty/whitespace-only string"
+                "symlink_name callback returned empty/whitespace-only string",
             )
         return symlink_name
     elif isinstance(config.symlink_name, str):
