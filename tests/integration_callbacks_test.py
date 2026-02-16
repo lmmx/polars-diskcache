@@ -32,10 +32,9 @@ def test_machine_learning_pipeline_cache_strategy(tmp_path):
         cache_dir=tmp_path,
         cache_key=ml_cache_key,
         entry_dir=ml_entry_dir,
-        symlink_name=lambda func,
-        bound_args,
-        result,
-        cache_key: f"{func.__name__}_result.parquet",
+        symlink_name=lambda func, bound_args, result, cache_key: (
+            f"{func.__name__}_result.parquet"
+        ),
     )
 
     @pc.cache_polars()
