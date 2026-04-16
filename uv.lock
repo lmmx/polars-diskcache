@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.13"
 
 [options]
-exclude-newer = "2026-04-13T11:43:40.983950156Z"
+exclude-newer = "2026-04-13T11:44:59.520785332Z"
 exclude-newer-span = "P3D"
 
 [[package]]
@@ -118,7 +118,7 @@ requires-dist = [
 debug = [{ name = "pysnooper", specifier = ">=1.2.3" }]
 dev = [
     { name = "pdbpp", specifier = ">=0.12.1" },
-    { name = "polars", specifier = ">=1.32.2" },
+    { name = "polars", specifier = ">=1.36" },
 ]
 test = [{ name = "pytest", specifier = ">=8.4.1" }]
 
