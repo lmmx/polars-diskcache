@@ -35,12 +35,7 @@ def test_nested(tmp_path):
     # Check structure: cache_dir/functions/encoded_module/encoded_qualname/args/result.parquet
     cache_path = Path(tmp_path)
     expected_symlink = (
-        cache_path
-        / "functions"
-        / encoded_module
-        / encoded_qualname
-        / "n=42"
-        / "result.parquet"
+        cache_path / "functions" / encoded_module / encoded_qualname / "n=42" / "result.parquet"
     )
 
     assert expected_symlink.exists()
@@ -77,13 +72,7 @@ def test_flat_module_path(tmp_path):
 
     # Check structure: cache_dir/functions/encoded_full_qualname/args/cached_data.parquet
     cache_path = Path(tmp_path)
-    expected_symlink = (
-        cache_path
-        / "functions"
-        / encoded_qualname
-        / "value=hello"
-        / "cached_data.parquet"
-    )
+    expected_symlink = cache_path / "functions" / encoded_qualname / "value=hello" / "cached_data.parquet"
 
     assert expected_symlink.exists()
     assert expected_symlink.is_symlink()

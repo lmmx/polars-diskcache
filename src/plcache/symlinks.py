@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING, Any
 import polars as pl
 
 if TYPE_CHECKING:
-    from .types import DecoratedFn
     from .config_dataclasses import SymlinkConfig
+    from .types import DecoratedFn
 
 _DEFAULT_SYMLINK_NAME = "output.parquet"
 

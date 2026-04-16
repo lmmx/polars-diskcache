@@ -3,13 +3,12 @@
 
 from collections.abc import Callable
 from types import FunctionType
-from typing import Union
 
 import polars as pl
 from ty_extensions import Intersection
 
 CallableFn = Intersection[FunctionType, Callable[[], None]]
-PolarsFrame = Union[pl.DataFrame, pl.LazyFrame]
+PolarsFrame = pl.DataFrame | pl.LazyFrame
 DecoratedFn = Callable[..., PolarsFrame]
 
 # Type alias for the callback function

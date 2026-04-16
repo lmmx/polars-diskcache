@@ -1,7 +1,6 @@
 # tests/custom_callbacks_test.py
 """Tests for custom cache_key and entry_dir callback functionality."""
 
-import hashlib
 from pathlib import Path
 from urllib.parse import quote
 

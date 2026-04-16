@@ -1,5 +1,12 @@
 # 🐻‍❄️💿 polars-diskcache
 
+<!-- [![downloads](https://static.pepy.tech/badge/polars-diskcache/month)](https://pepy.tech/project/polars-diskcache) -->
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![PyPI](https://img.shields.io/pypi/v/polars-diskcache.svg)](https://pypi.org/project/polars-diskcache)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/polars-diskcache.svg)](https://pypi.org/project/polars-diskcache)
+[![License](https://img.shields.io/pypi/l/polars-diskcache.svg)](https://pypi.python.org/pypi/polars-diskcache)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/lmmx/polars-diskcache/master.svg)](https://results.pre-commit.ci/latest/github/lmmx/polars-diskcache/master)
+
 A diskcache decorator for Polars DataFrames and LazyFrames that saves results as Parquet files.
 
 ## What it does

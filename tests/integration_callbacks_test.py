@@ -1,7 +1,6 @@
 # tests/integration_callbacks_test.py
 """Integration tests for custom callbacks with real-world scenarios."""
 
-import hashlib
 from pathlib import Path
 
 import polars as pl
@@ -32,9 +31,7 @@ def test_machine_learning_pipeline_cache_strategy(tmp_path):
         cache_dir=tmp_path,
         cache_key=ml_cache_key,
         entry_dir=ml_entry_dir,
-        symlink_name=lambda func, bound_args, result, cache_key: (
-            f"{func.__name__}_result.parquet"
-        ),
+        symlink_name=lambda func, bound_args, result, cache_key: f"{func.__name__}_result.parquet",
     )
 
     @pc.cache_polars()
@@ -175,19 +172,13 @@ def test_callback_error_handling_in_real_workflow(tmp_path):
 
     def sometimes_broken_cache_key(func, bound_args):
         """Cache key that fails for certain inputs."""
-        if (
-            "input_value" in bound_args
-            and bound_args["input_value"] == "break_cache_key"
-        ):
+        if "input_value" in bound_args and bound_args["input_value"] == "break_cache_key":
             raise RuntimeError("Cache key generation failed!")
         return f"working_cache_key_{bound_args}"
 
     def sometimes_broken_entry_dir(func, bound_args):
         """Entry dir that fails for certain inputs."""
-        if (
-            "input_value" in bound_args
-            and bound_args["input_value"] == "break_entry_dir"
-        ):
+        if "input_value" in bound_args and bound_args["input_value"] == "break_entry_dir":
             raise RuntimeError("Entry dir generation failed!")
         return f"working_dir_{len(bound_args)}_args"
 

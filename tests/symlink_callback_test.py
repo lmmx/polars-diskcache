@@ -55,7 +55,7 @@ def test_callable_symlink_raise_on_error(tmp_path):
 
     # Should raise the callback error, not fall back silently
     with pytest.raises(ValueError, match="Callback failed!"):
-        original_result = fallback_test(123)
+        _original_result = fallback_test(123)
 
     # Should find default filename
     cache_path = Path(tmp_path)
