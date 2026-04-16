@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.13"
 
 [options]
-exclude-newer = "2026-04-13T11:44:59.520785332Z"
+exclude-newer = "2026-04-13T11:57:06.908515958Z"
 exclude-newer-span = "P3D"
 
 [[package]]
@@ -87,12 +87,24 @@ wheels = [
 
 [[package]]
 name = "polars-diskcache"
-version = "0.1.4"
+version = "0.1.5"
 source = { editable = "." }
 dependencies = [
     { name = "diskcache" },
     { name = "ty-extensions" },
     { name = "xxhash" },
+]
+
+[package.optional-dependencies]
+debug = [
+    { name = "pysnooper" },
+]
+dev = [
+    { name = "pdbpp" },
+    { name = "polars" },
+]
+test = [
+    { name = "pytest" },
 ]
 
 [package.dev-dependencies]
@@ -110,9 +122,14 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "diskcache", specifier = ">=5.6.3" },
+    { name = "pdbpp", marker = "extra == 'dev'", specifier = ">=0.12.1" },
+    { name = "polars", marker = "extra == 'dev'", specifier = ">=1.36" },
+    { name = "pysnooper", marker = "extra == 'debug'", specifier = ">=1.2.3" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.4.1" },
     { name = "ty-extensions", specifier = ">=0.1.0" },
     { name = "xxhash", specifier = ">=3.5.0" },
 ]
+provides-extras = ["debug", "dev", "test"]
 
 [package.metadata.requires-dev]
 debug = [{ name = "pysnooper", specifier = ">=1.2.3" }]
