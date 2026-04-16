@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from .types import DecoratedFn
     from .config_dataclasses import PathConfig
+    from .types import DecoratedFn
 
 
 def create_entry_dir_name(

@@ -163,12 +163,9 @@ class PolarsCache:
 
                         path_config = replace(
                             path_config,
-                            symlinks_dir_name=symlinks_dir
-                            or path_config.symlinks_dir_name,
+                            symlinks_dir_name=symlinks_dir or path_config.symlinks_dir_name,
                             nested=nested if nested is not None else path_config.nested,
-                            trim_arg=trim_arg
-                            if trim_arg is not None
-                            else path_config.trim_arg,
+                            trim_arg=trim_arg if trim_arg is not None else path_config.trim_arg,
                         )
 
                     if symlink_name is not None:
@@ -233,9 +230,7 @@ def cache(
     global _global_cache
     uncached = isinstance(_global_cache, _DummyCache)
 
-    if uncached or (
-        cache_dir is not None and Path(_global_cache.cache_dir) != Path(cache_dir)
-    ):
+    if uncached or (cache_dir is not None and Path(_global_cache.cache_dir) != Path(cache_dir)):
         _global_cache = PolarsCache(
             cache_dir=cache_dir,
             use_tmp=use_tmp,

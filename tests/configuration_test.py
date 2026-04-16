@@ -33,12 +33,7 @@ def test_cache_custom_dir_name(tmp_path):
     # Check custom directory name
     cache_path = Path(tmp_path)
     expected_symlink = (
-        cache_path
-        / "my_cache"
-        / encoded_module
-        / encoded_qualname
-        / "no_args"
-        / "output.parquet"
+        cache_path / "my_cache" / encoded_module / encoded_qualname / "no_args" / "output.parquet"
     )
 
     assert expected_symlink.exists()
@@ -85,12 +80,7 @@ def test_cache_with_kwargs(tmp_path):
     # Check args directory includes kwargs
     cache_path = Path(tmp_path)
     expected_symlink = (
-        cache_path
-        / "functions"
-        / encoded_module
-        / encoded_qualname
-        / "a=10_b=test"
-        / "data.parquet"
+        cache_path / "functions" / encoded_module / encoded_qualname / "a=10_b=test" / "data.parquet"
     )
 
     assert expected_symlink.exists()
