@@ -47,13 +47,12 @@ uv pip install polars-diskcache
 import polars as pl
 from plcache import cache
 
+
 # Simple caching - just add the decorator
 @cache()
 def expensive_computation(n: int) -> pl.DataFrame:
-    return pl.DataFrame({
-        "values": range(n),
-        "squared": [i**2 for i in range(n)]
-    })
+    return pl.DataFrame({"values": range(n), "squared": [i**2 for i in range(n)]})
+
 
 # First call: executes function and caches result
 df1 = expensive_computation(1000)
@@ -125,13 +124,16 @@ By default, plcache creates a hidden `.polars_cache` directory:
 @cache()
 def my_function(): ...
 
+
 # Custom location
 @cache(cache_dir="/path/to/my/cache")
 def my_function(): ...
 
+
 # Use system temp directory
 @cache(use_tmp=True)
 def my_function(): ...
+
 
 # Non-hidden directory name
 @cache(hidden=False)  # creates "polars_cache" instead of ".polars_cache"
@@ -145,12 +147,15 @@ def my_function(): ...
 @cache(symlinks_dir="analytics")  # creates cache/analytics/ instead of cache/functions/
 def analytics_function(): ...
 
+
 @cache(symlinks_dir="data_loading")
 def load_data(): ...
 
+
 # Choose layout style
-@cache(nested=True)   # module/function/ (default)
+@cache(nested=True)  # module/function/ (default)
 def split_example(): ...
+
 
 @cache(nested=False)  # module.function/ (flat)
 def flat_example(): ...
@@ -163,9 +168,11 @@ def flat_example(): ...
 @cache(trim_arg=20)  # truncate long argument values
 def function_with_long_args(very_long_argument_name: str): ...
 
+
 # Custom symlink filename
 @cache(symlink_name="results.parquet")
 def custom_output(): ...
+
 
 @cache(symlink_name="processed_data.parquet")
 def data_processor(): ...
@@ -197,19 +204,18 @@ Control what gets cached together by customizing the cache key generation:
 def preprocessing_cache_key(func, bound_args):
     """Cache key that ignores debug flags but includes data params."""
     # Remove debug/logging flags from cache consideration
-    cache_params = {k: v for k, v in bound_args.items()
-                   if k not in ['debug', 'verbose', 'log_level']}
+    cache_params = {k: v for k, v in bound_args.items() if k not in ["debug", "verbose", "log_level"]}
     return f"{func.__name__}({cache_params})"
 
-cache = PolarsCache(
-    cache_dir="./preprocessing_cache",
-    cache_key=preprocessing_cache_key
-)
+
+cache = PolarsCache(cache_dir="./preprocessing_cache", cache_key=preprocessing_cache_key)
+
 
 @cache.cache_polars()
 def preprocess_data(raw_data, normalize=True, remove_outliers=False, debug=False):
     # Expensive data preprocessing that shouldn't re-run for debug flag changes
     return expensive_preprocessing(raw_data, normalize, remove_outliers)
+
 
 # These calls will hit the same cache entry:
 clean_data1 = preprocess_data(df, normalize=True, debug=False)
@@ -226,19 +232,20 @@ Organize your cache directories with meaningful names:
 ```python
 def experiment_dir_name(func, bound_args):
     """Create experiment-specific directory names."""
-    model = bound_args['model_type']
-    dataset_size = len(bound_args['data'])
+    model = bound_args["model_type"]
+    dataset_size = len(bound_args["data"])
     return f"{model}_experiment_{dataset_size}samples"
 
+
 cache = PolarsCache(
-    cache_dir="./experiments",
-    entry_dir=experiment_dir_name,
-    symlink_name="model_output.parquet"
+    cache_dir="./experiments", entry_dir=experiment_dir_name, symlink_name="model_output.parquet"
 )
+
 
 @cache.cache_polars()
 def run_experiment(data, model_type, learning_rate=0.01):
     return train_and_evaluate(data, model_type, learning_rate)
+
 
 # Creates: experiments/functions/.../xgboost_experiment_1000samples/model_output.parquet
 result = run_experiment(large_dataset, "xgboost", 0.001)
@@ -250,9 +257,9 @@ All callbacks receive normalized arguments where positional and keyword argument
 
 ```python
 # These calls produce identical bound_args:
-func(10, name="test")           # bound_args = {'value': 10, 'name': 'test'}
-func(value=10, name="test")     # bound_args = {'value': 10, 'name': 'test'}
-func(name="test", value=10)     # bound_args = {'value': 10, 'name': 'test'} (sorted)
+func(10, name="test")  # bound_args = {'value': 10, 'name': 'test'}
+func(value=10, name="test")  # bound_args = {'value': 10, 'name': 'test'}
+func(name="test", value=10)  # bound_args = {'value': 10, 'name': 'test'} (sorted)
 ```
 
 **Cache Key Callback**: `(func, bound_args) -> str`
@@ -282,8 +289,9 @@ my_cache = PolarsCache(
     cache_dir="./analysis_cache",
     symlinks_dir="experiments",
     nested=True,
-    symlink_name="experiment_result.parquet"
+    symlink_name="experiment_result.parquet",
 )
+
 
 @my_cache.cache_polars()
 def run_experiment(params: dict) -> pl.DataFrame:
@@ -298,14 +306,12 @@ plcache handles various argument types intelligently:
 ```python
 @cache(trim_arg=20)
 def complex_function(
-    data_list: list[int],
-    config: dict,
-    enabled: bool = True,
-    mode: str = "advanced_processing"
+    data_list: list[int], config: dict, enabled: bool = True, mode: str = "advanced_processing"
 ) -> pl.DataFrame:
     # Arguments are safely encoded in directory structure
     # Long values are truncated to trim_arg
     return pl.DataFrame({"processed": [len(data_list)]})
+
 
 # Creates: functions/__main__/complex_function/arg0=[1, 2, 3]_config={'key': 'val'}_enabled=True_mode=super_long_mode_name/
 result = complex_function([1, 2, 3], {"key": "val"}, False, "super_long_mode_name_that_gets_truncated")
@@ -320,9 +326,11 @@ plcache automatically preserves the return type:
 def get_lazy_data(n: int) -> pl.LazyFrame:
     return pl.LazyFrame({"x": range(n)})
 
+
 @cache()
 def get_eager_data(n: int) -> pl.DataFrame:
     return pl.DataFrame({"x": range(n)})
+
 
 # Returns LazyFrame (cached with lazy semantics)
 lazy_result = get_lazy_data(100)
@@ -351,35 +359,26 @@ default_cache.clear()
 import polars as pl
 from plcache import cache
 
-@cache(
-    cache_dir="./data_cache",
-    symlinks_dir="datasets",
-    symlink_name="raw_data.parquet"
-)
+
+@cache(cache_dir="./data_cache", symlinks_dir="datasets", symlink_name="raw_data.parquet")
 def load_stock_data(symbol: str, start_date: str, end_date: str) -> pl.LazyFrame:
     """Load stock data - expensive API call, perfect for caching."""
     # Expensive API call or file I/O
-    return pl.scan_csv(f"data/{symbol}.csv").filter(
-        pl.col("date").is_between(start_date, end_date)
-    )
+    return pl.scan_csv(f"data/{symbol}.csv").filter(pl.col("date").is_between(start_date, end_date))
 
-@cache(
-    cache_dir="./analysis_cache",
-    symlinks_dir="technical_analysis",
-    symlink_name="indicators.parquet"
-)
+
+@cache(cache_dir="./analysis_cache", symlinks_dir="technical_analysis", symlink_name="indicators.parquet")
 def technical_analysis(symbol: str, window: int = 20) -> pl.DataFrame:
     """Compute technical indicators - expensive computation."""
     stock_data = load_stock_data(symbol, "2024-01-01", "2024-12-31")
 
-    return (
-        stock_data
-        .with_columns([
+    return stock_data.with_columns(
+        [
             pl.col("close").rolling_mean(window).alias("sma"),
-            pl.col("close").rolling_std(window).alias("volatility")
-        ])
-        .collect()
-    )
+            pl.col("close").rolling_std(window).alias("volatility"),
+        ]
+    ).collect()
+
 
 # Usage - only computes once per unique combination
 aapl_analysis = technical_analysis("AAPL", window=20)
