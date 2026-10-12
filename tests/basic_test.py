@@ -53,7 +53,7 @@ def test_different_args_different_cache(tmp_path, wait: float):
     @cache(cache_dir=tmp_path)
     def compute(n: int) -> pl.DataFrame:
         time.sleep(wait)
-        return pl.DataFrame({"value": [i for i in range(n)]})
+        return pl.DataFrame({"value": [*range(n)]})
 
     # Different n values should both be slow
     with timer() as elapsed:
